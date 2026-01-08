@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>special message for my princess</title>
+    <style>
+        :root {
+            --primary: #ff7675;
+            /* GANTI LINK DI BAWAH UNTUK GANTI BACKGROUND */
+            --bg-custom: url('img/WhatsApp\ Image\ 2026-01-08\ at\ 8.41.09\ PM.jpeg');
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--bg-custom);
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* Container Utama */
+        .container {
+            position: relative;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Amplop */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .envelope-wrapper::before {
+            content: "";
+            position: absolute;
+            z-index: 50;
+            border-top: 110px solid #fab1a0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            top: 0;
+            transform-origin: top;
+            transition: transform 0.5s 0.3s ease;
+        }
+
+        .envelope-wrapper::after {
+            content: "";
+            position: absolute;
+            z-index: 40;
+            border-top: 100px solid transparent;
+            border-right: 150px solid #ff7675;
+            border-bottom: 100px solid #ff7675;
+            border-left: 150px solid #ff7675;
+            bottom: 0;
+        }
+
+        /* Kertas Surat */
+        .letter {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            width: 280px;
+            height: 180px;
+            background: white;
+            text-align: center;
+            transition: all 0.7s ease;
+            z-index: 20;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .letter h3 { font-size: 18px; color: #d63031; margin-bottom: 10px; }
+        .letter p { font-size: 14px; color: #333; margin-bottom: 20px; line-height: 1.4; }
+
+        /* Tombol */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.3s;
+        }
+
+        #btnYa { background: #55efc4; color: #008964; }
+        #btnYa:hover { background: #00b894; color: white; transform: scale(1.1); }
+
+        #btnTidak { background: #ff7675; color: #b22222; }
+
+        /* Efek Buka Surat */
+        .container:hover .envelope-wrapper::before {
+            transform: rotateX(180deg);
+            z-index: 10;
+        }
+
+        .container:hover .letter {
+            transform: translateY(-150px);
+            z-index: 60;
+            height: 220px;
+        }
+
+        /* Animasi Hujan Hati */
+        .heart-rain {
+            position: absolute;
+            top: -10%;
+            font-size: 20px;
+            color: #ff7675;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="letter">
+                <h3>Hello my princess! ✨</h3>
+                <p>will you be my girlfriend? 🍦</p>
+                <div class="btn-group">
+                    <button id="btnYa" onclick="ucapan()">yes I do!</button>
+                    <button id="btnTidak" onmouseover="lari(this)">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi membuat hujan hati
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-rain');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Fungsi tombol lari
+        function lari(t) {
+            const x = Math.random() * (window.innerWidth - t.offsetWidth);
+            const y = Math.random() * (window.innerHeight - t.offsetHeight);
+            t.style.position = 'fixed';
+            t.style.left = x + 'px';
+            t.style.top = y + 'px';
+        }
+
+        function ucapan() {
+            alert('yeayy thank you, I love you ❤️');
+        }
+    </script>
+
+</body>
+</html>
