@@ -132,10 +132,33 @@
         @keyframes fall {
             to { transform: translateY(110vh) rotate(360deg); }
         }
+
+        /* Instruksi Awal */
+        #tap-hint {
+            position: fixed;
+            bottom: 20px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="tap-hint">Klik amplop untuk membuka & putar musik 🎵</div>
+
+    <audio id="myAudio" loop>
+        <source src="https://files.catbox.moe/k3l6y3.mp3" type="audio/mpeg">
+    </audio>
+    
     <div class="container">
         <div class="envelope-wrapper">
             <div class="letter">
