@@ -3,177 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>special message for my princess</title>
+    <title>Special for My Princes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary: #ff7675;
-            /* GANTI LINK DI BAWAH UNTUK GANTI BACKGROUND */
+            --secondary: #fab1a0;
             --bg-custom: url('img/WhatsApp\ Image\ 2026-01-08\ at\ 8.41.09\ PM.jpeg');
         }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--bg-custom);
-            background-size: cover;
-            background-position: center;
-            overflow: hidden;
-        }
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--bg-custom); background-size: cover; background-position: center; overflow: hidden; }
 
-        /* Container Utama */
-        .container {
-            position: relative;
-            cursor: pointer;
-            z-index: 100;
-        }
+        /* COVER */
+        #page-cover { text-align: center; z-index: 200; transition: 1s ease; }
+        #page-cover h1 { color: white; font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .btn-open { padding: 15px 40px; font-size: 1.1rem; background: var(--primary); color: white; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 118, 117, 0.4); font-weight: bold; }
 
-        /* Amplop */
-        .envelope-wrapper {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            background-color: var(--primary);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
+        /* MAIN */
+        #page-envelope { display: none; opacity: 0; transition: 1.5s; flex-direction: column; align-items: center; }
+        .container { position: relative; cursor: pointer; }
+        .envelope-wrapper { position: relative; width: 300px; height: 200px; background-color: var(--primary); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .envelope-wrapper::before { content: ""; position: absolute; z-index: 50; border-top: 110px solid var(--secondary); border-left: 150px solid transparent; border-right: 150px solid transparent; top: 0; transform-origin: top; transition: transform 0.5s 0.3s ease; }
+        .envelope-wrapper::after { content: ""; position: absolute; z-index: 40; border-top: 100px solid transparent; border-right: 150px solid var(--primary); border-bottom: 100px solid var(--primary); border-left: 150px solid var(--primary); bottom: 0; }
 
-        .envelope-wrapper::before {
-            content: "";
-            position: absolute;
-            z-index: 50;
-            border-top: 110px solid #fab1a0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            top: 0;
-            transform-origin: top;
-            transition: transform 0.5s 0.3s ease;
-        }
-
-        .envelope-wrapper::after {
-            content: "";
-            position: absolute;
-            z-index: 40;
-            border-top: 100px solid transparent;
-            border-right: 150px solid #ff7675;
-            border-bottom: 100px solid #ff7675;
-            border-left: 150px solid #ff7675;
-            bottom: 0;
-        }
-
-        /* Kertas Surat */
-        .letter {
-            position: absolute;
-            left: 10px;
-            bottom: 10px;
-            width: 280px;
-            height: 180px;
-            background: white;
-            text-align: center;
-            transition: all 0.7s ease;
-            z-index: 20;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .letter h3 { font-size: 18px; color: #d63031; margin-bottom: 10px; }
-        .letter p { font-size: 14px; color: #333; margin-bottom: 20px; line-height: 1.4; }
-
-        /* Tombol */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        button {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: 'Poppins', sans-serif;
-            transition: 0.3s;
-        }
-
+        .letter { position: absolute; left: 10px; bottom: 10px; width: 280px; height: 180px; background: rgba(255, 255, 255, 0.95); text-align: center; transition: all 0.7s ease; z-index: 20; padding: 25px; border-radius: 10px; }
+        .letter h3 { font-family: 'Dancing Script', cursive; font-size: 24px; color: #d63031; margin: 0; }
+        .btn-group { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .btn-choice { padding: 8px 18px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
         #btnYa { background: #55efc4; color: #008964; }
-        #btnYa:hover { background: #00b894; color: white; transform: scale(1.1); }
-
         #btnTidak { background: #ff7675; color: #b22222; }
 
-        /* Efek Buka Surat */
-        .container:hover .envelope-wrapper::before {
-            transform: rotateX(180deg);
-            z-index: 10;
-        }
+        .container.open .envelope-wrapper::before { transform: rotateX(180deg); z-index: 10; }
+        .container.open .letter { transform: translateY(-160px); z-index: 60; height: 220px; }
 
-        .container:hover .letter {
-            transform: translateY(-150px);
-            z-index: 60;
-            height: 220px;
-        }
+        /* MODAL AKHIR */
+        #modal-akhir { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 300; justify-content: center; align-items: center; flex-direction: column; color: white; text-align: center; opacity: 0; transition: 1s; }
+        #modal-akhir h2 { font-family: 'Dancing Script', cursive; font-size: 4rem; margin: 0; color: var(--primary); }
 
-        /* Animasi Hujan Hati */
-        .heart-rain {
-            position: absolute;
-            top: -10%;
-            font-size: 20px;
-            color: #ff7675;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* Instruksi Awal */
-        #tap-hint {
-            position: fixed;
-            bottom: 20px;
-            color: white;
-            background: rgba(0,0,0,0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 12px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
+        .heart-rain { position: absolute; top: -10%; font-size: 20px; color: #ff7675; user-select: none; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="tap-hint">Klik amplop untuk membuka & putar musik 🎵</div>
+        <div style="position: fixed; bottom: 15px; right: 15px; color: rgba(255, 255, 255, 0.6); font-size: 12px; font-family: 'Quicksand', sans-serif; letter-spacing: 1px; z-index: 999;">
+    Website Created by Farras GreenFlag abiez
+</div>
 
-    <audio id="myAudio" loop>
-        <source src="https://files.catbox.moe/k3l6y3.mp3" type="audio/mpeg">
-    </audio>
-    
-    <div class="container">
-        <div class="envelope-wrapper">
-            <div class="letter">
-                <h3>Hello my princess! ✨</h3>
-                <p>will you be my girlfriend? 🍦</p>
-                <div class="btn-group">
-                    <button id="btnYa" onclick="ucapan()">yes I do!</button>
-                    <button id="btnTidak" onmouseover="lari(this)">NO</button>
+    <div id="page-cover">
+        <h1>Haii kayla, aku adaa sesuatu buat kamu</h1>
+        <button class="btn-open" onclick="startApp()">klikk iniii kalau km sayaangg aku</button>
+    </div>
+
+    <div id="page-envelope">
+        <div class="container" id="envelope" onclick="bukaSurat()">
+            <div class="envelope-wrapper">
+                <div class="letter">
+                    <h3>Hello my Princes✨</h3>
+                    <p>will u be my girlfriend?</p>
+                    <div class="btn-group">
+                        <button class="btn-choice" id="btnYa" onclick="jawabYa(event)">yes i do</button>
+                        <button class="btn-choice" id="btnTidak" onmouseover="lari(this)">ogah</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="modal-akhir">
+        <h2>Yeassh!</h2>
+        <p style="font-size: 1.2rem;"> aku senenggg bangett, terimakasih yaaa, i love u ❤️</p>
+        <!-- <button class="btn-open" style="margin-top: 20px;" onclick="location.reload()">kembali</button> -->
+    </div>
+
     <script>
-        // Fungsi membuat hujan hati
+        function startApp() {
+            document.getElementById('page-cover').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('page-cover').style.display = 'none';
+                const mainPage = document.getElementById('page-envelope');
+                mainPage.style.display = 'flex';
+                setTimeout(() => mainPage.style.opacity = '1', 50);
+            }, 1000);
+        }
+
+        function bukaSurat() { document.getElementById("envelope").classList.add("open"); }
+
+        function lari(t) {
+            const x = Math.random() * (window.innerWidth - t.offsetWidth);
+            const y = Math.random() * (window.innerHeight - t.offsetHeight);
+            t.style.position = 'fixed'; t.style.left = x + 'px'; t.style.top = y + 'px';
+        }
+
+        function jawabYa(e) {
+            e.stopPropagation();
+            
+            // 1. Efek Ledakan Konfeti (Warna-warni & Bunga-bunga)
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+
+            // 2. Tampilkan Modal Akhir
+            setTimeout(() => {
+                const modal = document.getElementById('modal-akhir');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.style.opacity = '1', 50);
+            }, 500);
+        }
+
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-rain');
@@ -182,27 +132,9 @@
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             heart.style.opacity = Math.random();
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
-
         setInterval(createHeart, 300);
-
-        // Fungsi tombol lari
-        function lari(t) {
-            const x = Math.random() * (window.innerWidth - t.offsetWidth);
-            const y = Math.random() * (window.innerHeight - t.offsetHeight);
-            t.style.position = 'fixed';
-            t.style.left = x + 'px';
-            t.style.top = y + 'px';
-        }
-
-        function ucapan() {
-            alert('yeayy thank you, I love you ❤️');
-        }
     </script>
-
 </body>
 </html>
